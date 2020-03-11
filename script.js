@@ -1,6 +1,13 @@
 function load(){
 
   /*
+  ---------------------------------------
+  VARIABLES
+  */
+  var orderButtonVisible;
+
+  /*
+  ---------------------------------------
   FUNCTIONS
   */
 
@@ -23,17 +30,17 @@ function load(){
       if(document.getElementById("s2").checked)
           cost *= 2.5;
       document.getElementById("shippingCost").innerHTML = cost;
-      if(!orderButtonExists)
-        createOrderButton();
+      if(!orderButtonVisible)
+        makeOrderButtonVisible();
     }
   }
 
   function required() {
-    return (document.getElementById("w1").checked || document.getElementById("w2").checked)
-            && (document.getElementById("shippingName").value != "") && (document.getElementById("shippingAddress").value != "");
+    return (document.getElementById("w1").checked
+            || document.getElementById("w2").checked)
+            && (document.getElementById("shippingName").value != "")
+            && (document.getElementById("shippingAddress").value != "");
   }
-
-  var orderButtonExists = false;
 
   function createOrderButton() {
     var buttonSpan = document.createElement("span");
@@ -47,10 +54,28 @@ function load(){
     buttonSpan.appendChild(orderButton);
     document.getElementsByTagName("p")[1].appendChild(buttonSpan);
 
-    orderButtonExists = true;
+    document.getElementById("orderButton").style.visibility = "hidden";
+    orderButtonVisible = false;
+  }
+
+  function orderButton() {
+    if(document.getElementById("billingName").value === "")
+      document.getElementById("billingName").value
+       = document.getElementById("shippingName").value;
+    if(document.getElementById("billingAddress").value === "")
+      document.getElementById("billingAddress").value
+       = document.getElementById("shippingAddress").value;
+  }
+
+  function makeOrderButtonVisible(){
+    if (!orderButtonVisible){
+      document.getElementById("orderButton").style.visibility = "visible";
+      orderButtonVisible = true;
+    }
   }
 
   /*
+  ---------------------------------------
   EXERCICES
   */
 
@@ -58,11 +83,17 @@ function load(){
   for(var i=1 ; i<4 ; i++){
       for(var j=1 ; j<4 ; j++){
         var idName = "option"+i+j;
-        document.getElementById(idName).addEventListener("click", function() {
+        document.getElementById(idName).addEventListener("click", function(){
           selectedOption(this);});
       }
   }
 
   //exercice 2
-  document.getElementById("calculate").addEventListener("click",function(){calculate();});
+  document.getElementById("calculate").addEventListener("click", function(){
+    calculate();});
+
+  //exercice for avaliation
+  createOrderButton();
+  document.getElementById("orderButton").addEventListener("click", function(){
+    orderButton();});
 }
