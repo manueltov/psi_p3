@@ -9,24 +9,45 @@ function load(){
   }
 
   function calculate(){
-    if(!required())
+    if(!required()){
       alert("Há campos obrigatórios por preencher!");
-    let cost = 0;
-    if(document.getElementById("w1").checked){
-        cost += 1;
-    }else{
-        cost += 10;
+    } else {
+      let cost = 0;
+      if(document.getElementById("w1").checked){
+          cost += 1;
+      }else{
+          cost += 10;
+      }
+      if(document.getElementById("s1").checked)
+          cost += 5;
+      if(document.getElementById("s2").checked)
+          cost *= 2.5;
+      document.getElementById("shippingCost").innerHTML = cost;
+      if(!orderButtonExists)
+        createOrderButton();
     }
-    if(document.getElementById("s1").checked)
-        cost += 5;
-    if(document.getElementById("s2").checked)
-        cost *= 2.5;
-    document.getElementById("shippingCost").innerHTML = cost;
   }
 
   function required() {
     return (document.getElementById("w1").checked || document.getElementById("w2").checked)
             && (document.getElementById("shippingName").value != "") && (document.getElementById("shippingAddress").value != "");
+  }
+
+  var orderButtonExists = false;
+
+  function createOrderButton() {
+    var buttonSpan = document.createElement("span");
+    var br = document.createElement("br");
+
+    var orderButton = document.createElement("BUTTON");
+    orderButton.innerHTML = "Encomendar";
+    orderButton.setAttribute("id", "orderButton");
+
+    buttonSpan.appendChild(br);
+    buttonSpan.appendChild(orderButton);
+    document.getElementsByTagName("p")[1].appendChild(buttonSpan);
+
+    orderButtonExists = true;
   }
 
   /*
