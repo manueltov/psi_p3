@@ -1,8 +1,13 @@
 function load(){
-  e1();
-}
+  function selectedOption(option){
+      document.getElementById("selectedOption").innerHTML = option.innerHTML;
+  }
 
-function e1(){
-  document.querySelectorAll('[role="presentation"]').forEach(function (el){
-el.classList.remove("active");
+  for(var i=1 ; i<4 ; i++){
+      for(var j=1 ; j<4 ; j++){
+        var idName = "option"+i+j;
+        document.getElementById(idName).addEventListener("click", function() {
+          selectedOption(this);});
+      }
+  }
 }
